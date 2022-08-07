@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { UserAuth } from '../context/AuthContext';
 
 const Navbar = () => {
@@ -14,6 +14,9 @@ const Navbar = () => {
 			console.log(error);
 		}
 	};
+
+	const location = useLocation();
+
 	return (
 		<div className="flex items-center justify-between p-4 z-[100] absolute w-full">
 			<Link to="/">
@@ -24,25 +27,37 @@ const Navbar = () => {
 			{user?.email ? (
 				<div>
 					<Link to="/account">
-						<button className="text-white pr-4">Account</button>
+						<button className="text-white pr-4">Minha Conta</button>
 					</Link>
 					<button
 						onClick={handleLogout}
 						className="bg-red-600 px-6 py-2 rounded cursor-pointer text-white"
 					>
-						Logout
+						Sair
 					</button>
 				</div>
 			) : (
 				<div>
-					<Link to="/login">
-						<button className="text-white pr-4">Sign In</button>
-					</Link>
-					<Link to="/signup">
-						<button className="bg-red-600 px-6 py-2 rounded cursor-pointer text-white">
-							Sign Up
-						</button>
-					</Link>
+					{location.pathname !== '/signup' ? (
+						<>
+							{/* <Link to="/login">
+								<button className="text-white pr-4">
+									Entrar
+								</button>
+							</Link> */}
+							<Link to="/signup">
+								<button className="bg-red-600 px-6 py-2 rounded cursor-pointer text-white">
+									Cadastrar
+								</button>
+							</Link>
+						</>
+					) : (
+						<Link to="/login">
+							<button className="bg-red-600 px-6 py-2 rounded cursor-pointer text-white">
+								Entrar
+							</button>
+						</Link>
+					)}
 				</div>
 			)}
 		</div>
